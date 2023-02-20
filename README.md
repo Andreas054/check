@@ -5,3 +5,13 @@ Price checker python script communicating with the server running SmartCash Chec
 
 ## Additional libraries
 - [guizero](https://pypi.org/project/guizero/)
+
+## Crontab
+### normal
+- @reboot sh /home/pi/checkpi/startup.sh
+- 5 6 * * * sh /home/pi/checkpi/startup.sh
+- 55 21 * * * sh /home/pi/checkpi/stop.sh
+
+\# For External Monitor
+- 0 22 * * * vcgencmd display_power 0
+- 0 6 * * * vcgencmd display_power 1
