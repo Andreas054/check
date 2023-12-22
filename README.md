@@ -14,6 +14,17 @@ Price checker python script.
 
 - ## 4.3 DSI LCD
 - [Waveshare 4.3" LCD](https://www.waveshare.com/wiki/4.3inch_DSI_LCD)
+```sh
+sudo nano /boot/config.txt
+
+dtoverlay=vc4-kms-v3d
+dtoverlay=vc4-kms-dsi-7inch
+```
+#### Set permissions for changing screen brightness
+```sh
+sudo su -c 'echo SUBSYSTEM==\"backlight\", RUN+=\"/bin/chmod 0666 /sys/class/backlight/%k/brightness /sys/class/backlight/%k/bl_power\" > /etc/udev/rules.d/99-backlight.rules'
+```
+
 
 # Crontab
 ### rpi3fetcheck1
