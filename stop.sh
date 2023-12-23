@@ -3,6 +3,6 @@
 export DISPLAY=:0
 xhost +
 
-sudo killall python3
+sudo killall lxterminal
 
 echo 0 > /sys/class/backlight/10-0045/brightness  # for 4.2 inch display
