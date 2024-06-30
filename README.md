@@ -27,6 +27,12 @@ sudo su -c 'echo SUBSYSTEM==\"backlight\", RUN+=\"/bin/chmod 0666 /sys/class/bac
 
 
 # Crontab
+### root
+```sh
+0 0 * * 1 /sbin/shutdown -r
+*/10 7-20 * * * python3 /home/pi/checkpi/watchdog_check.py
+```
+
 ### rpi3fetcheck1
 ```sh
 @reboot sh /home/pi/checkpi/startup.sh
@@ -37,13 +43,6 @@ sudo su -c 'echo SUBSYSTEM==\"backlight\", RUN+=\"/bin/chmod 0666 /sys/class/bac
 ```
 
 ### rpi4fetcheck2
-```sh
-@reboot sh /home/pi/checkpi/startup.sh
-5 6 * * * sh /home/pi/checkpi/startup.sh
-55 21 * * * sh /home/pi/checkpi/stop.sh
-```
-
-### rpi4ctp6check1
 ```sh
 @reboot sh /home/pi/checkpi/startup.sh
 5 6 * * * sh /home/pi/checkpi/startup.sh
