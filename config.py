@@ -1,6 +1,6 @@
 from guizero import *
 
-folderProgram = "/home/pi/checkpi/"
+folderProgram = "/home/pi/check/"
 
 
 nrCaractereProdusMAX = 20 # 4.2 + External
