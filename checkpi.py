@@ -93,13 +93,13 @@ def usbScan():
     global countScannerUsage
     while True:
         output = barcode_reader()
-        #output = "5942325000233"
+        #output = "5942325003753"
 
         fdbConnection = fdb.connect(dsn = dbdir, user = "sysdba", password = "masterkey") # Firebird
         fdbCursor1 = fdbConnection.cursor()
 
         fdbSQLCommand = f"SELECT cat.descriere, ROUND(cat.pret * (SELECT tva/100+1 FROM tva WHERE idtva = cat.idtva), 2), \
-            (SELECT um FROM um WHERE idum = cat.idumsale) FROM catalog cat WHERE artnr = (SELECT artnr FROM coduri WHERE codwithcrc = '{output}');"
+            (SELECT um FROM um WHERE idum = cat.idumsale), idtypeasociat, idarticol_asociat FROM catalog cat WHERE artnr = (SELECT artnr FROM coduri WHERE codwithcrc = '{output}');"
 
         fdbCursor1.execute(fdbSQLCommand)
         listaCursor1 = fdbCursor1.fetchall()
@@ -111,6 +111,7 @@ def usbScan():
             text1.value = "Articol inexistent"
             text2.value = "sau cod invalid"
             text3.value = output
+            text4.value = ""
 
             # Write to log current time and COD in case No Response
             with open(folderProgram + "checkLog.txt", "a") as logFile:
@@ -119,6 +120,22 @@ def usbScan():
             produsNume = listaCursor1[0][0]
             produsPret = listaCursor1[0][1]
             produsUM = listaCursor1[0][2]
+            produsIdTypeAsociat = listaCursor1[0][3]
+            produsIdArticolAsociat = listaCursor1[0][4]
+
+            garantieNume = None
+            garantiePret = None
+
+            if produsIdTypeAsociat == 4: # Articol Principal RetuRO
+                if produsIdArticolAsociat != 0:
+                    fdbSQLCommand = f"SELECT descriere, pret FROM catalog WHERE artnr = {produsIdArticolAsociat};"
+
+                    fdbCursor1.execute(fdbSQLCommand)
+                    listaCursor2 = fdbCursor1.fetchall()
+
+                    if len(listaCursor2) > 0:
+                        garantieNume = listaCursor2[0][0]
+                        garantiePret = listaCursor2[0][1]
 
             # CHANGE PARAMTER FOR DIFFERENT SIZE MONITOR
             produsNume = separaParagrafPeLinii(produsNume, nrCaractereProdusMAX) + ['']
@@ -130,12 +147,15 @@ def usbScan():
             text1.value = produsNume[0]
             text2.value = produsNume[1]
             text3.value = str(produsPret) + '/' + produsUM
+            if garantieNume is not None:
+                text4.value = f'+ {garantiePret} {garantieNume}'
 
         time.sleep(6)
 
         text1.value = "Scanati produsul"
         text2.value = "aici!"
         text3.value = "..."
+        text4.value = ""
 
 # Write to log current date
 with open(folderProgram + "checkLog.txt", "a") as logFile:
