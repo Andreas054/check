@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 15
+sleep 90
 export DISPLAY=:0
 xhost +
 

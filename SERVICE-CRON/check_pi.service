@@ -1,0 +1,18 @@
+[Unit]
+Description=checkpi
+Wants=network-online.target
+After=network-online.target
+#After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sh startup.sh
+WorkingDirectory=/home/pi/check
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestarSec=60
+User=pi
+
+[Install]
+WantedBy=multi-user.target

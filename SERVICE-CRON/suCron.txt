@@ -1,0 +1,4 @@
+*/10 7-20 * * * python3 /home/pi/check/watchdog_check.py
+
+5 6 * * * systemctl start check_pi.service
+55 21 * * * sh /home/pi/check/stop.sh &
