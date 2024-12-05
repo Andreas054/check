@@ -11,7 +11,7 @@ WorkingDirectory=/home/pi/check
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-RestarSec=60
+RestartSec=60
 User=pi
 
 [Install]
