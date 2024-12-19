@@ -13,4 +13,4 @@ if process_status(process_name):
 else:
     print(f"The process {process_name} is not running.")
     import os
-    os.system('reboot')
+    os.system('/usr/sbin/reboot')
